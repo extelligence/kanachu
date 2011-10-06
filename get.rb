@@ -7,37 +7,49 @@ require 'net/http'
 require 'nokogiri'
 require 'open-uri'
 
-# Set UserAgent
-url = "http://dia.kanachu.jp/bus/timetable?busstop=16064&pole=7&pole_seq=2&apply=2011/10/03&day=1"
-BOT_USER_AGENT = 'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0)'
+USER_AGENT = 'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0)'
 
-raw_html = open(url, 'User-Agent' => BOT_USER_AGENT).read.toutf8.gsub(/\r/, "\n")
+class Crawler
+  def initialize(url, user_agent)
+    @url = url
+    @user_agent = user_agent
+  end
 
-#puts raw_html
-doc = Nokogiri::HTML(raw_html)
-#pp doc
+  def raw_html
+    open(@url, 'User-Agent' => @user_agent).read.toutf8.gsub(/\r/, "\n")
+  end
 
-#target = "/html/body/table[2]/tr[8]/td[2]/table/tr[2]/td/table/tr/td"
-time_table_xpath = "/html/body/table[2]"
-html_time_table = doc.xpath(time_table_xpath)
-#puts html_time_table.xpath("tr/td[2]/table/tr[2]").text
-
-start_hour = 5
-end_hour = 26
-
-time_table_array = []
-start_hour..end_hour.times do |i|
-  hoge = html_time_table.xpath("tr[#{i - 1}]/td").text
-  hoge.delete!("\n")
-  hoge = hoge.split
-  unless hoge[0].nil?
-    time_table_array << hoge
+  def doc
+    Nokogiri::HTML(raw_html)
   end
 end
 
-result_table = Hash.new
-time_table_array.each do |h|
-  result_table["#{h[0]}"] = h[2]
+class Parser
+  def self.exec(doc)
+    start_hour = 5
+    end_hour   = 26
+    time_table_array = []
+    result_table = Hash.new
+
+    time_table_xpath = "/html/body/table[2]"
+    html_time_table = doc.xpath(time_table_xpath)
+    start_hour..end_hour.times do |i|
+      hoge = html_time_table.xpath("tr[#{i - 1}]/td").text
+      hoge.delete!("\n")
+      hoge = hoge.split
+      unless hoge[0].nil?
+        time_table_array << hoge
+      end
+    end
+    time_table_array.each do |h|
+      result_table["#{h[0]}"] = h[2]
+    end
+    result_table
+  end
 end
 
-pp result_table
+if $0 == __FILE__
+  url = "http://dia.kanachu.jp/bus/timetable?busstop=16064&pole=7&pole_seq=2&apply=2011/10/03&day=1"
+  isehara = Crawler.new(url, USER_AGENT)
+  pp Parser.exec(isehara.doc)
+end
