@@ -59,6 +59,10 @@ class Parser
 end
 
 if $0 == __FILE__
+  # URLパラメータ仕様
+  # [pole]     行き先
+  # [pole_seq] 経由
+  # [day]      平日:1 土曜:2 休日:3
   url = "http://dia.kanachu.jp/bus/timetable?busstop=16064&pole=7&pole_seq=2&apply=2011/10/03&day=1"
   isehara = Crawler.new(url, USER_AGENT)
   time_table = Parser.get_timetable(isehara.doc)
