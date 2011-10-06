@@ -42,6 +42,7 @@ class Parser
     end
 
     time_table_array.each do |h|
+      h[0] = "0#{h[0]}" if h[0].size == 1
       time_table_hours["#{h[0]}"] = h[2] unless h[2].nil?
     end
     time_table_hours.delete('系統')
@@ -52,19 +53,37 @@ class Parser
     time_table_minutes = Hash.new
     exec(doc).each do |k, v|
       v = v.unpack("a2" * (v.size / 2))
-      time_table_minutes["#{k}"] = v
+      time_table_minutes["#{k}"] = v unless v.empty?
     end
     time_table_minutes
   end
 end
 
+def now_hour
+  Time.now.strftime("%H")
+end
+
+def get_bus_now?(time_table)
+  if time_table.key?("#{now_hour}")
+    puts time_table["#{now_hour}"]
+  else
+    puts "この時間のバスはないよ！"
+  end
+end
+
 if $0 == __FILE__
+  url = "http://dia.kanachu.jp/bus/timetable?busstop=16064&pole=7&pole_seq=2&apply=2011/10/03&day=1"
   # URLパラメータ仕様
   # [pole]     行き先
   # [pole_seq] 経由
   # [day]      平日:1 土曜:2 休日:3
-  url = "http://dia.kanachu.jp/bus/timetable?busstop=16064&pole=7&pole_seq=2&apply=2011/10/03&day=1"
+
   isehara = Crawler.new(url, USER_AGENT)
-  time_table = Parser.get_timetable(isehara.doc)
-  pp time_table
+  isehara_timetable = Parser.get_timetable(isehara.doc)
+  #pp isehara_timetable
+
+  puts '=' * 80
+  puts "現在の時間: #{Time.now.strftime("%H:%M")}"
+  get_bus_now?(isehara_timetable)
+  puts '=' * 80
 end
