@@ -116,7 +116,7 @@ class Timetables
         tmp << [x['time'].join(), x]
       end
       recommand_time_table.clear
-      tmp.sort.each do |x|
+      tmp.sort_by{|x| x[0].to_i}.each do |x|
         recommand_time_table << x[1]
       end
       recommand_time_table
