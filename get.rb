@@ -24,7 +24,19 @@ class Crawler
 end
 
 class Parser
-  def self.exec(doc)
+  def self.to_array(doc)
+    time_table_minutes = []
+    raw_timetable(doc).each do |k, v|
+      minutes_array = v.unpack("a2" * (v.size / 2))
+      minutes_array.each do |m|
+        time_table_minutes << [k, m] unless m.empty?
+      end
+    end
+    time_table_minutes
+  end
+
+  private
+  def self.raw_timetable(doc)
     start_hour = 5
     end_hour   = 26
     time_table_array = []
@@ -49,33 +61,9 @@ class Parser
     time_table_hours.delete('経由')
     time_table_hours
   end
-
-  def self.get_timetable(doc)
-    time_table_minutes = []
-    exec(doc).each do |k, v|
-      minutes_array = v.unpack("a2" * (v.size / 2))
-      minutes_array.each do |m|
-        time_table_minutes << [k, m] unless m.empty?
-      end
-    end
-    time_table_minutes
-  end
 end
 
-def now_hour
-  Time.now.strftime("%H")
-end
-
-def get_bus_now?(time_table)
-  result = time_table.select{|x| x[0] == now_hour}
-  if result.empty?
-    print "この時間のバスはないよ！"
-  else
-    print result
-  end
-end
-
-if $0 == __FILE__
+class Timetables
   #
   # ■ユーザーの利用路線について
   # ▼22:05以前の場合、どちらかに乗車する。
@@ -101,20 +89,38 @@ if $0 == __FILE__
     {"url" => "http://dia.kanachu.jp/bus/timetable?busstop=16064&pole=5&pole_seq=2&apply=2011/10/03&day=1", "name" => "田村車庫行(旧道経由)"},
     {"url" => "http://dia.kanachu.jp/bus/timetable?busstop=16064&pole=4&pole_seq=6&apply=2011/10/03&day=1", "name" => "伊勢原駅南口行(平間・大島経由)"}
   ]
-  timetables = []
 
-  KANACHU_TIMETABLE_URL.each do |t|
-    html = Crawler.new(t['url'], USER_AGENT)
-    timetables << {"name" => t['name'], "time" => Parser.get_timetable(html.doc)}
+
+  def self.all
+    timetables = []
+    KANACHU_TIMETABLE_URL.each do |t|
+      html = Crawler.new(t['url'], USER_AGENT)
+      timetables << {"name" => t['name'], "time" => Parser.to_array(html.doc)}
+    end
+    timetables
   end
-  pp timetables
 
+  def self.get_bus_now?
+    recommand_time_table = []
+
+    all.each do |h|
+      h["time"].select{|x| x[0] == now_hour}.each do |m|
+        recommand_time_table << {"name" => h["name"], "time" => m}
+      end
+    end
+    recommand_time_table << {"name" => "この時間のバスはないよ！", "time" => ["XX", "XX"]} if recommand_time_table.empty?
+    recommand_time_table
+  end
+end
+
+def now_hour
+  Time.now.strftime("%H")
+end
+
+if $0 == __FILE__
   puts '=' * 80
   puts "現在の時間: #{Time.now.strftime("%H:%M")}"
   print "\n"
-  timetables.each do |t|
-    print "#{t['name']}：  "
-    puts get_bus_now?(t['time'])
-  end
+  puts Timetables.get_bus_now?
   puts '=' * 80
 end
