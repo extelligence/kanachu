@@ -51,10 +51,12 @@ class Parser
   end
 
   def self.get_timetable(doc)
-    time_table_minutes = Hash.new
+    time_table_minutes = []
     exec(doc).each do |k, v|
-      v = v.unpack("a2" * (v.size / 2))
-      time_table_minutes["#{k}"] = v unless v.empty?
+      minutes_array = v.unpack("a2" * (v.size / 2))
+      minutes_array.each do |m|
+        time_table_minutes << [k, m] unless m.empty?
+      end
     end
     time_table_minutes
   end
@@ -65,10 +67,11 @@ def now_hour
 end
 
 def get_bus_now?(time_table)
-  if time_table.key?("#{now_hour}")
-    print time_table["#{now_hour}"]
-  else
+  result = time_table.select{|x| x[0] == now_hour}
+  if result.empty?
     print "この時間のバスはないよ！"
+  else
+    print result
   end
 end
 
@@ -104,7 +107,7 @@ if $0 == __FILE__
     html = Crawler.new(t['url'], USER_AGENT)
     timetables << {"name" => t['name'], "time" => Parser.get_timetable(html.doc)}
   end
-  #pp timetables
+  pp timetables
 
   puts '=' * 80
   puts "現在の時間: #{Time.now.strftime("%H:%M")}"
