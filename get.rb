@@ -101,15 +101,26 @@ class Timetables
   end
 
   def self.get_bus_now?
-    recommand_time_table = []
+    recommand_time_table, tmp = [], []
 
     all.each do |h|
       h["time"].select{|x| x[0] == now_hour}.each do |m|
         recommand_time_table << {"name" => h["name"], "time" => m}
       end
     end
-    recommand_time_table << {"name" => "この時間のバスはないよ！", "time" => ["XX", "XX"]} if recommand_time_table.empty?
-    recommand_time_table
+
+    if recommand_time_table.empty?
+      recommand_time_table << {"name" => "この時間のバスはないよ！", "time" => ["XX", "XX"]}
+    else
+      recommand_time_table.each do |x|
+        tmp << [x['time'].join(), x]
+      end
+      recommand_time_table.clear
+      tmp.sort.each do |x|
+        recommand_time_table << x[1]
+      end
+      recommand_time_table
+    end
   end
 end
 
