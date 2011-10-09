@@ -51,7 +51,7 @@ class Timetables
     recommand_time_table, tmp = [], []
 
     all.each do |h|
-      h["time"].select{|x| x[0] == now_hour}.each do |m|
+      h["time"].select{|x| x[0].to_i >= now_hour.to_i}.each do |m|
         recommand_time_table << {"name" => h["name"], "time" => m, "boarding" => h['boarding']}
       end
     end
@@ -66,7 +66,17 @@ class Timetables
       tmp.sort_by{|x| x[0].to_i}.each do |x|
         recommand_time_table << x[1]
       end
-      recommand_time_table
+
+      # 24時台の場合の対応
+      if now_hour == "00"
+        all.each do |h|
+          h["time"].select{|x| x[0].to_i == 24}.each do |m|
+            recommand_time_table.unshift({"name" => h["name"], "time" => m, "boarding" => h['boarding']})
+          end
+        end
+      end
+
+      recommand_time_table[0..19]
     end
   end
 end
