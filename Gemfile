@@ -1,12 +1,11 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.1.1'
-
-# Bundle edge Rails instead:
-# gem 'rails',     :git => 'git://github.com/rails/rails.git'
-
 gem 'sqlite3'
 gem 'nokogiri', '~> 1.5.0'
+gem 'jquery-rails'
+gem 'css3buttons', '0.9.5'
+#gem "flutie"
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -16,19 +15,19 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-gem 'jquery-rails'
-
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
-# Use unicorn as the web server
-# gem 'unicorn'
-
-# Deploy with Capistrano
-# gem 'capistrano'
-
-# To use debugger
-# gem 'ruby-debug19', :require => 'ruby-debug'
+group :development, :test do
+  gem 'ruby-debug19'
+  gem 'annotate'
+  gem 'rspec-rails'
+  gem 'rspec'
+  gem 'launchy'
+  gem 'capybara'
+  gem 'database_cleaner'
+  gem 'factory_girl_rails'
+end
 
 group :test do
   # Pretty printed test output
