@@ -3,5 +3,22 @@
  * and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
  * the top of the compiled file, but it's generally better to create a new file per style scope.
  *= require_self
- *= require_tree . 
+ *= require_tree .
 */
+
+body {
+  background: #fff;
+  font-family: "Times New Roman",Georgia,Serif;
+}
+
+div.container {
+  width: 320px;
+  margin: 0 auto;
+}
+
+/* Round corners */
+.round {
+  -moz-border-radius:    8px;
+  -webkit-border-radius: 8px;
+  border-radius:         8px;
+}

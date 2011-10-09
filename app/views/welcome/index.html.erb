@@ -1,1 +1,22 @@
-あいうえお
+<h2 class="title" style="text-align: center;">かなちゅう発車案内</h2>
+
+<div class="buses">
+  <table>
+    <tbody>
+        <tr class="bus round" style="background: #ddd; padding: 12px; margin-bottom: 3px;" >
+        <th class="bus_stop" style="width: 50px; font-size: 0.8em; ">のりば</th>
+        <th class="going" style="width: 200px; font-size: 0.8em; ">行先</th>
+        <th class="time" style="width: 70px; font-size: 0.8em; ">発車時刻</th>
+      </tr>
+
+      <% 10.times do |number| %>
+        <tr class="bus round" style="background: #ddd; padding: 12px; margin-bottom: 3px;" >
+          <td class="bus_stop" style="font-size: 1.8em; text-align: center;">12</td>
+          <td class="going" style="font-size: 0.9em; text-align: center; ">伊勢原駅南口行(大田経由)</td>
+          <td class="time" style="font-size: 1.5em; text-align: center;" >19:45</td>
+        </tr>
+      <% end %>
+
+    </tbody>
+  </table>
+</div>
