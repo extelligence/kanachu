@@ -9,11 +9,11 @@
         <th class="time" style="width: 70px; font-size: 0.8em; ">発車時刻</th>
       </tr>
 
-      <% 10.times do |number| %>
+      <% @timetables.each do |t| %>
         <tr class="bus round" style="background: #ddd; padding: 12px; margin-bottom: 3px;" >
           <td class="bus_stop" style="font-size: 1.8em; text-align: center;">12</td>
-          <td class="going" style="font-size: 0.9em; text-align: center; ">伊勢原駅南口行(大田経由)</td>
-          <td class="time" style="font-size: 1.5em; text-align: center;" >19:45</td>
+          <td class="going" style="font-size: 0.9em; text-align: center; "><%= t["name"] %></td>
+          <td class="time" style="font-size: 1.5em; text-align: center;" ><%= t["time"][0] %>:<%= t["time"][1] %></td>
         </tr>
       <% end %>
 
