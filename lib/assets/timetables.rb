@@ -47,7 +47,7 @@ class Timetables
     timetables
   end
 
-  def self.get_bus_now?
+  def self.get_bus_now(now_hour)
     recommand_time_table, tmp = [], []
 
     all.each do |h|
@@ -57,7 +57,7 @@ class Timetables
     end
 
     if recommand_time_table.empty?
-      recommand_time_table << {"name" => "この時間のバスはないよ！", "time" => ["XX", "XX"], "boarding" => "X"}
+      recommand_time_table << {"name" => "帰りのバスは、ありません。", "time" => ["--", "--"], "boarding" => "-"}
     else
       recommand_time_table.each do |x|
         tmp << [x['time'].join(), x]
@@ -71,14 +71,10 @@ class Timetables
   end
 end
 
-def now_hour
-  Time.now.strftime("%H")
-end
-
 if $0 == __FILE__
   puts '=' * 80
   puts "現在の時間: #{Time.now.strftime("%H:%M")}"
   print "\n"
-  puts Timetables.get_bus_now?
+  puts Timetables.get_bus_now(Time.now.strftime("%H"))
   puts '=' * 80
 end
