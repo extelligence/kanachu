@@ -28,13 +28,13 @@ class Timetables
   # [pole_seq] 経由
   # [day]      平日:1 土曜:2 休日:3
   KANACHU_TIMETABLE_URL = [
-    {"url" => "http://dia.kanachu.jp/bus/timetable?busstop=16064&pole=4&pole_seq=2&apply=2011/10/03&day=1", "name" => "伊勢原駅南口行(大田経由)"},
-    {"url" => "http://dia.kanachu.jp/bus/timetable?busstop=16064&pole=4&pole_seq=7&apply=2011/10/03&day=1", "name" => "愛甲石田駅行"},
-    {"url" => "http://dia.kanachu.jp/bus/timetable?busstop=16064&pole=4&pole_seq=3&apply=2011/10/03&day=1", "name" => "田村車庫行(横内経由)"},
-    {"url" => "http://dia.kanachu.jp/bus/timetable?busstop=16064&pole=4&pole_seq=4&apply=2011/10/03&day=1", "name" => "田村車庫行(大島経由)"},
-    {"url" => "http://dia.kanachu.jp/bus/timetable?busstop=16064&pole=4&pole_seq=5&apply=2011/10/03&day=1", "name" => "田村車庫行(神明経由)"},
-    {"url" => "http://dia.kanachu.jp/bus/timetable?busstop=16064&pole=5&pole_seq=2&apply=2011/10/03&day=1", "name" => "田村車庫行(旧道経由)"},
-    {"url" => "http://dia.kanachu.jp/bus/timetable?busstop=16064&pole=4&pole_seq=6&apply=2011/10/03&day=1", "name" => "伊勢原駅南口行(平間・大島経由)"}
+    {"url" => "http://dia.kanachu.jp/bus/timetable?busstop=16064&pole=4&pole_seq=2&apply=2011/10/03&day=1", "name" => "伊勢原駅南口行(大田経由)", "boarding" => "4"},
+    {"url" => "http://dia.kanachu.jp/bus/timetable?busstop=16064&pole=4&pole_seq=7&apply=2011/10/03&day=1", "name" => "愛甲石田駅行", "boarding" => "4"},
+    {"url" => "http://dia.kanachu.jp/bus/timetable?busstop=16064&pole=4&pole_seq=3&apply=2011/10/03&day=1", "name" => "田村車庫行(横内経由)", "boarding" => "4"},
+    {"url" => "http://dia.kanachu.jp/bus/timetable?busstop=16064&pole=4&pole_seq=4&apply=2011/10/03&day=1", "name" => "田村車庫行(大島経由)", "boarding" => "4"},
+    {"url" => "http://dia.kanachu.jp/bus/timetable?busstop=16064&pole=4&pole_seq=5&apply=2011/10/03&day=1", "name" => "田村車庫行(神明経由)", "boarding" => "4"},
+    {"url" => "http://dia.kanachu.jp/bus/timetable?busstop=16064&pole=5&pole_seq=2&apply=2011/10/03&day=1", "name" => "田村車庫行(旧道経由)", "boarding" => "5"},
+    {"url" => "http://dia.kanachu.jp/bus/timetable?busstop=16064&pole=4&pole_seq=6&apply=2011/10/03&day=1", "name" => "伊勢原駅南口行(平間・大島経由)", "boarding" => "4"}
   ]
 
 
@@ -42,7 +42,7 @@ class Timetables
     timetables = []
     KANACHU_TIMETABLE_URL.each do |t|
       html = Crawler.new(t['url'], USER_AGENT)
-      timetables << {"name" => t['name'], "time" => Parser.to_array(html.doc)}
+      timetables << {"name" => t['name'], "time" => Parser.to_array(html.doc), "boarding" => t['boarding']}
     end
     timetables
   end
@@ -52,12 +52,12 @@ class Timetables
 
     all.each do |h|
       h["time"].select{|x| x[0] == now_hour}.each do |m|
-        recommand_time_table << {"name" => h["name"], "time" => m}
+        recommand_time_table << {"name" => h["name"], "time" => m, "boarding" => h['boarding']}
       end
     end
 
     if recommand_time_table.empty?
-      recommand_time_table << {"name" => "この時間のバスはないよ！", "time" => ["XX", "XX"]}
+      recommand_time_table << {"name" => "この時間のバスはないよ！", "time" => ["XX", "XX"], "boarding" => "X"}
     else
       recommand_time_table.each do |x|
         tmp << [x['time'].join(), x]
