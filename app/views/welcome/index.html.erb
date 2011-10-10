@@ -1,20 +1,20 @@
-<div style="float: left;"><h2 class="title" style="margin: 0; text-align: center; font-size: 1em; padding: 10px; ">神奈中バス発車案内</h2></div>
-<p class="revision" style="font-size: 0.8em; float: right;">(2011年10月03日 改訂)</p>
+<div style="float: left;"><h2 class="title" style="margin: 0; text-align: center; font-size: 1em; padding: 7px; ">神奈中バス発車案内</h2></div>
+<p class="revision" style="margin-top: 9px; margin-bottom: 0; font-size: 0.8em; float: right;">(2011年10月03日 改訂)</p>
 <div style="clear: both;"></div>
 
-<div class="current" style="margin-bottom: 8px;">
+<div class="current" style="margin-bottom: 8px; padding: 0;">
   <table>
     <tbody>
       <tr style="background: #ddd; padding: 12px; margin-bottom: 3px;" >
-        <th style="width: 200px; font-size: 0.8em; ">現在地</th>
-        <th style="width: 50px;  font-size: 0.8em; ">運行</th>
-        <th style="width: 70px;  font-size: 0.8em; ">現在時刻</th>
+        <th style="width: 200px; font-size: 11px; ">現在地</th>
+        <th style="width: 50px;  font-size: 11px; ">運行</th>
+        <th style="width: 70px;  font-size: 11px; ">現在時刻</th>
       </tr>
 
       <tr style="background: #ddd; padding: 12px; margin-bottom: 3px;" >
-        <td style="font-size: 0.9em; text-align: center; ">平塚駅北口</td>
-        <td style="font-size: 0.9em; text-align: center;">平日</td>
-        <td style="font-size: 1.5em; text-align: center;" ><%= Time.zone.now.strftime("%H:%M") %></td>
+        <td style="font-size: 18px; text-align: center; "><strong>平塚駅北口</strong></td>
+        <td style="font-size: 14px; text-align: center;">平日</td>
+        <td style="font-size: 24px; text-align: center;" ><strong><%= Time.zone.now.strftime("%H:%M") %></strong></td>
       </tr>
 
     </tbody>
@@ -24,16 +24,16 @@
 <div class="buses">
   <table>
     <tbody>
-      <tr class="bus round" style="background: #ddd; padding: 12px; margin-bottom: 3px;" >
-        <th class="bus_stop" style="width: 50px; font-size: 0.8em; ">のりば</th>
-        <th class="going" style="width: 200px; font-size: 0.8em; ">行先</th>
-        <th class="time" style="width: 70px; font-size: 0.8em; ">発車時刻</th>
+      <tr style="background: #ddd; padding: 12px; margin-bottom: 3px;" >
+        <th class="bus_stop" style="width: 50px;  font-size: 11px; ">のりば</th>
+        <th class="going"    style="width: 200px; font-size: 11px; ">行先</th>
+        <th class="time"     style="width: 70px;  font-size: 11px; ">発車時刻</th>
       </tr>
 
       <% @timetables.each do |t| %>
         <tr class="bus round" style="background: #ddd; padding: 12px; margin-bottom: 3px;">
-          <td class="bus_stop" style="font-size: 1.8em; text-align: center; height: 40px; "><%= t["boarding"] %></td>
-          <td class="going" style="font-size: 0.9em; text-align: center; height: 40px; "><%= t["name"] %><% unless t["via"].blank? %><br /><span class="via" style="font-size: 0.8em;">(<%= t["via"] %>)<% end %></span></td>
+          <td class="bus_stop" style="font-size: 1.8em; text-align: center; height: 40px; "><strong><%= t["boarding"] %></strong></td>
+        <td class="going" style="font-size: 15px; text-align: center; height: 40px; "><strong><%= t["name"] %></strong><% unless t["via"].blank? %><br /><span class="via" style="font-size: 0.8em;">(<%= t["via"] %>)<% end %></span></td>
           <td class="time" style="font-size: 1.5em; text-align: center; height: 40px; "><%= t["time"][0] %>:<%= t["time"][1] %></td>
         </tr>
       <% end %>
