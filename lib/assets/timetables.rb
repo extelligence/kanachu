@@ -57,7 +57,7 @@ class Timetables
     end
 
     if recommand_time_table.empty?
-      recommand_time_table << {"name" => "帰りのバスは、ありません。", "time" => ["--", "--"], "boarding" => "-", "via" => "-"}
+      recommand_time_table << {"name" => "帰りのバスはありません", "time" => ["--", "--"], "boarding" => "-", "via" => ""}
     else
       recommand_time_table.each do |x|
         tmp << [x['time'].join(), x]

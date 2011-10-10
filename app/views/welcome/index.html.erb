@@ -3,7 +3,7 @@
 <div style="clear: both;"></div>
 
 <div class="current" style="margin-bottom: 8px; padding: 0;">
-  <table>
+  <table class="current">
     <tbody>
       <tr style="background: #ddd; padding: 12px; margin-bottom: 3px;" >
         <th style="width: 200px; font-size: 11px; ">現在地</th>
@@ -22,7 +22,7 @@
 </div>
 
 <div class="buses">
-  <table>
+  <table class="current">
     <tbody>
       <tr style="background: #ddd; padding: 12px; margin-bottom: 3px;" >
         <th class="bus_stop" style="width: 50px;  font-size: 11px; ">のりば</th>
@@ -34,7 +34,7 @@
         <tr class="bus round" style="background: #ddd; padding: 12px; margin-bottom: 3px;">
           <td class="bus_stop" style="font-size: 1.8em; text-align: center; height: 40px; "><strong><%= t["boarding"] %></strong></td>
         <td class="going" style="font-size: 15px; text-align: center; height: 40px; "><strong><%= t["name"] %></strong><% unless t["via"].blank? %><br /><span class="via" style="font-size: 0.8em;">(<%= t["via"] %>)<% end %></span></td>
-          <td class="time" style="font-size: 1.5em; text-align: center; height: 40px; "><%= t["time"][0] %>:<%= t["time"][1] %></td>
+          <td class="time" style="font-size: 1.5em; text-align: center; height: 40px; "><strong><%= t["time"][0] %>:<%= t["time"][1] %></strong></td>
         </tr>
       <% end %>
 

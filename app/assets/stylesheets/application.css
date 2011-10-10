@@ -19,7 +19,27 @@ div.container {
 
 /* Round corners */
 .round {
+  border-radius:         8px;
   -moz-border-radius:    8px;
   -webkit-border-radius: 8px;
-  border-radius:         8px;
+}
+
+table.current {
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  color: #000;
+  padding: 1px;
+  background: #aaa;
+}
+
+table.current tr th {
+  background: #aaa;
+}
+
+table.current tr td {
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  background: #fff;
 }
