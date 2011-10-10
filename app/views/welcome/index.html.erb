@@ -1,19 +1,38 @@
-<h2 class="title" style="text-align: center;">かなちゅう発車案内</h2>
+<h2 class="title" style="margin: 0; text-align: center; font-size: 1em; padding: 10px; ">かなちゅう発車案内</h2>
+
+<div class="current" style="margin-bottom: 8px;">
+  <table>
+    <tbody>
+      <tr style="background: #ddd; padding: 12px; margin-bottom: 3px;" >
+        <th style="width: 200px; font-size: 0.8em; ">現在地</th>
+        <th style="width: 50px;  font-size: 0.8em; ">運行</th>
+        <th style="width: 70px;  font-size: 0.8em; ">現在時刻</th>
+      </tr>
+
+      <tr style="background: #ddd; padding: 12px; margin-bottom: 3px;" >
+        <td style="font-size: 0.9em; text-align: center; ">平塚駅北口</td>
+        <td style="font-size: 0.9em; text-align: center;">平日</td>
+        <td style="font-size: 1.5em; text-align: center;" ><%= Time.zone.now.strftime("%H:%M") %></td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>
 
 <div class="buses">
   <table>
     <tbody>
-        <tr class="bus round" style="background: #ddd; padding: 12px; margin-bottom: 3px;" >
+      <tr class="bus round" style="background: #ddd; padding: 12px; margin-bottom: 3px;" >
         <th class="bus_stop" style="width: 50px; font-size: 0.8em; ">のりば</th>
         <th class="going" style="width: 200px; font-size: 0.8em; ">行先</th>
         <th class="time" style="width: 70px; font-size: 0.8em; ">発車時刻</th>
       </tr>
 
       <% @timetables.each do |t| %>
-        <tr class="bus round" style="background: #ddd; padding: 12px; margin-bottom: 3px;" >
-          <td class="bus_stop" style="font-size: 1.8em; text-align: center;"><%= t["boarding"] %></td>
-        <td class="going" style="font-size: 0.9em; text-align: center; "><%= t["name"] %><% unless t["via"].blank? %><br />(<%= t["via"] %>)<% end %></td>
-          <td class="time" style="font-size: 1.5em; text-align: center;" ><%= t["time"][0] %>:<%= t["time"][1] %></td>
+        <tr class="bus round" style="background: #ddd; padding: 12px; margin-bottom: 3px;">
+          <td class="bus_stop" style="font-size: 1.8em; text-align: center; height: 40px; "><%= t["boarding"] %></td>
+          <td class="going" style="font-size: 0.9em; text-align: center; height: 40px; "><%= t["name"] %><% unless t["via"].blank? %><br /><span class="via" style="font-size: 0.8em;">(<%= t["via"] %>)<% end %></span></td>
+          <td class="time" style="font-size: 1.5em; text-align: center; height: 40px; "><%= t["time"][0] %>:<%= t["time"][1] %></td>
         </tr>
       <% end %>
 
