@@ -9,6 +9,7 @@ require 'crawler'
 require 'parser'
 
 USER_AGENT = 'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0)'
+RESULT_TIMETABLE_NUM = 10
 
 class Timetables
   #
@@ -78,7 +79,7 @@ class Timetables
         end
       end
 
-      recommand_time_table[0..19]
+      recommand_time_table[0..(RESULT_TIMETABLE_NUM - 1)]
     end
   end
 end
