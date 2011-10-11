@@ -34,7 +34,7 @@
         <tr class="bus round" style="background: #ddd; padding: 12px; margin-bottom: 3px;">
           <td class="bus_stop" style="font-size: 1.8em; text-align: center; height: 40px; color: #ff5500; "><strong><%= t["boarding"] %></strong></td>
         <td class="going" style="font-size: 15px; text-align: center; height: 40px; color: #fff;"><strong><%= t["name"] %></strong><% unless t["via"].blank? %><br /><span class="via" style="font-size: 0.8em;">(<%= t["via"] %>)<% end %></span></td>
-          <td class="time" style="font-size: 1.5em; text-align: center; height: 40px; color: #ff5500; "><strong><%= t["time"] %></strong></td>
+          <td class="time" style="font-size: 1.5em; text-align: center; height: 40px; color: #ff5500; "><strong><%= format_str_time(t["time"]) %></strong></td>
         </tr>
       <% end %>
 
