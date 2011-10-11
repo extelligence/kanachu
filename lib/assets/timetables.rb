@@ -47,11 +47,11 @@ class Timetables
     timetables
   end
 
-  def self.get_bus_now(now_hour)
+  def self.get_bus_now(now_hour_minutes)
     recommand_time_table, tmp = [], []
 
     all.each do |h|
-      h["time"].select{|x| x[0].to_i >= now_hour.to_i}.each do |m|
+      h["time"].select{|x| x.to_i >= now_hour_minutes.to_i}.each do |m|
         recommand_time_table << {"name" => h["name"], "time" => m, "boarding" => h['boarding'], "via" => h['via']}
       end
     end
@@ -60,7 +60,7 @@ class Timetables
       recommand_time_table << {"name" => "帰りのバスはありません", "time" => ["--", "--"], "boarding" => "-", "via" => ""}
     else
       recommand_time_table.each do |x|
-        tmp << [x['time'].join(), x]
+        tmp << [x['time'], x]
       end
       recommand_time_table.clear
       tmp.sort_by{|x| x[0].to_i}.each do |x|
@@ -68,7 +68,9 @@ class Timetables
       end
 
       # 24時台の場合の対応
-      if now_hour == "00"
+      # TODO: 現在取得できていない。要修正。
+      now_hour = now_hour_minutes.unpack("a2" * (now_hour_minutes.size / 2))
+      if now_hour[0] == "00"
         all.each do |h|
           h["time"].select{|x| x[0].to_i == 24}.each do |m|
             recommand_time_table.unshift({"name" => h["name"], "time" => m, "boarding" => h['boarding'], "via" => h["via"]})
@@ -85,6 +87,6 @@ if $0 == __FILE__
   puts '=' * 80
   puts "現在の時間: #{Time.now.strftime("%H:%M")}"
   print "\n"
-  puts Timetables.get_bus_now(Time.now.strftime("%H"))
+  puts Timetables.get_bus_now(Time.now.strftime("%H%M"))
   puts '=' * 80
 end

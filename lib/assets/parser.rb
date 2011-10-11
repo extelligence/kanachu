@@ -6,7 +6,7 @@ class Parser
     raw_timetable(doc).each do |k, v|
       minutes_array = v.unpack("a2" * (v.size / 2))
       minutes_array.each do |m|
-        time_table_minutes << [k, m] unless m.empty?
+        time_table_minutes << "#{k}#{m}" unless m.empty?
       end
     end
     time_table_minutes
