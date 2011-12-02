@@ -5,8 +5,8 @@ require 'kconv'
 require 'net/http'
 require 'nokogiri'
 require 'open-uri'
-require './crawler'
-require './parser'
+require 'crawler'
+require 'parser'
 
 USER_AGENT = 'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0)'
 RESULT_TIMETABLE_NUM = 10
